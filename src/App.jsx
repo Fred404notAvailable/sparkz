@@ -12,7 +12,7 @@ import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage'; // <-- NEW IMPORT
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 // Layout wrapper for AppLayout routes
 const AppLayoutWrapper = () => {
