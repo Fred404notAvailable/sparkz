@@ -27,7 +27,6 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Analytics />
         <Router>
           <Routes>
           {/* Routes wrapped with AppLayout */}
@@ -48,6 +47,7 @@ function App() {
           {/* 404 Page */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        <Analytics />
       </Router>
     </CartProvider>
   </AuthProvider>
