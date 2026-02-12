@@ -1,58 +1,91 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Bed, Shield, MapPin, Phone, ChevronDown, Film, Camera } from 'lucide-react';
-import gsap from 'gsap';
+import { Shield, MapPin, Bed, Phone, HelpCircle } from 'lucide-react';
 
-const Tabs = ({ activeTab, setActiveTab, isMobile }) => {
-  const tabBarRef = useRef(null);
+const Tabs = ({ activeTab, setActiveTab }) => {
+  const scrollRef = useRef(null);
 
-  const tabsConfig = [
-    { id: 'instructions', label: 'Instructions', icon: Shield, color: 'text-blue-400' },
-    { id: 'how-to-reach', label: 'How to Reach', icon: MapPin, color: 'text-green-400' },
-    { id: 'accommodation', label: 'Accommodation', icon: Bed, color: 'text-amber-400' },
-    { id: 'contacts', label: 'Contacts', icon: Phone, color: 'text-purple-400' },
-    { id: 'faqs', label: 'FAQ\'s', icon: ChevronDown, color: 'text-red-400' },
+  const tabs = [
+    { id: 'instructions', label: 'Instructions', icon: <Shield className="w-4 h-4 md:w-5 md:h-5" /> },
+    { id: 'how-to-reach', label: 'How to Reach', icon: <MapPin className="w-4 h-4 md:w-5 md:h-5" /> },
+    { id: 'accommodation', label: 'Accommodation', icon: <Bed className="w-4 h-4 md:w-5 md:h-5" /> },
+    { id: 'contacts', label: 'Contacts', icon: <Phone className="w-4 h-4 md:w-5 md:h-5" /> },
+    { id: 'faqs', label: 'FAQ\'s', icon: <HelpCircle className="w-4 h-4 md:w-5 md:h-5" /> },
   ];
 
+  // Auto-scroll the active tab into view on mobile
   useEffect(() => {
-    if (tabBarRef.current) {
-      const activeTabElement = tabBarRef.current.querySelector('.tab-active');
-      if (activeTabElement) {
-        gsap.to('.tab-indicator', {
-          x: activeTabElement.offsetLeft,
-          width: activeTabElement.offsetWidth,
-          duration: 0.5,
-          ease: 'power2.out',
+    if (scrollRef.current) {
+      const activeElement = scrollRef.current.querySelector(`[data-active="true"]`);
+      if (activeElement) {
+        activeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
         });
       }
     }
   }, [activeTab]);
 
   return (
-    <div className="sticky top-[72px] md:top-20 z-40 bg-black/80 backdrop-blur-lg border-y border-white/10">
-      <div ref={tabBarRef} className="relative max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="tab-indicator absolute top-0 h-full bg-gradient-to-r from-amber-500/10 to-red-500/10 border-x border-amber-500/30 rounded-lg"></div>
-        <div className="relative flex items-center justify-between gap-1 sm:gap-2 py-3 overflow-x-auto no-scrollbar">
-          {tabsConfig.map((tab, index) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <motion.button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`tab-item relative flex-1 min-w-[110px] p-3 rounded-lg z-10 ${isActive ? 'tab-active' : ''}`}
-              >
-                <div className={`flex flex-col items-center gap-2 transition-colors ${isActive ? 'text-white' : 'text-white/60 hover:text-white'}`}>
-                  <Icon size={isMobile ? 20 : 22} className={isActive ? tab.color : ''} />
-                  <span className={`font-medium text-xs sm:text-sm ${isActive ? 'font-semibold' : ''}`}>{tab.label}</span>
-                </div>
-              </motion.button>
-            );
-          })}
+    // Sticky container so tabs are always accessible while reading content
+    <div className="sticky top-20 z-30 w-full bg-black/80 backdrop-blur-md border-b border-white/10 shadow-lg">
+      <div className="max-w-7xl mx-auto">
+        {/* Scrollable Container */}
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto no-scrollbar py-3 px-4 md:justify-center md:px-0 scroll-smooth"
+          style={{ 
+            scrollbarWidth: 'none',  /* Firefox */
+            msOverflowStyle: 'none'  /* IE/Edge */
+          }}
+        >
+          {/* Flex Container with gap */}
+          <div className="flex gap-2 md:gap-4 min-w-max">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              
+              return (
+                <button
+                  key={tab.id}
+                  data-active={isActive}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`
+                    relative flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 flex-shrink-0
+                    ${isActive ? 'text-black font-bold' : 'text-white/60 hover:text-white font-medium'}
+                  `}
+                >
+                  {/* Active Background Animation */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+
+                  {/* Icon & Label (z-10 to sit on top of background) */}
+                  <span className="relative z-10 flex-shrink-0">
+                    {tab.icon}
+                  </span>
+                  
+                  {/* whitespace-nowrap prevents "Accommodation" from breaking lines */}
+                  <span className="relative z-10 text-sm md:text-base whitespace-nowrap">
+                    {tab.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
+      
+      {/* Hide scrollbar for Chrome/Safari/Webkit */}
+      <style jsx>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };

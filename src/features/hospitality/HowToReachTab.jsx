@@ -1,47 +1,117 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Train, Bus, Clock } from 'lucide-react';
-
-const travelOptions = [
-    { type: 'By Air', icon: Plane, details: 'Madurai Airport (IXM) is 80km away. Shuttle service is available.', time: '2-3 hours', cost: '₹500-1500', color: 'from-blue-500/20' },
-    { type: 'By Train', icon: Train, details: 'Madurai Junction (MDU) is 75km away. Regular buses are available.', time: '3-4 hours', cost: '₹200-500', color: 'from-green-500/20' },
-    { type: 'By Bus', icon: Bus, details: 'Direct buses to Srivilliputhur. Pickup available from the bus stand.', time: '1-2 hours', cost: '₹100-300', color: 'from-amber-500/20' },
-];
+import { MapPin, Bus, Train, Plane, Navigation, ExternalLink } from 'lucide-react';
 
 const HowToReachTab = () => {
+  const googleMapsUrl = "https://www.google.com/maps/dir//Kalasalingam+Academy+of+Research+and+Education,+Krishnankoil,+Tamil+Nadu+626126";
+
+  const travelModes = [
+    {
+      icon: <Bus className="w-8 h-8 text-amber-400" />,
+      title: "By Bus",
+      desc: "The college is situated at Krishnankoil, on the Madurai-Shencottah National Highway (NH 744). Buses between Madurai and Rajapalayam/Courtallam stop right in front of the campus entrance.",
+      stops: ["Krishnankoil Bus Stop (0 km)", "Madurai Mattuthavani (65 km)"]
+    },
+    {
+      icon: <Train className="w-8 h-8 text-amber-400" />,
+      title: "By Train",
+      desc: "The nearest railway station is Srivilliputtur (SVPR). However, Virudhunagar Junction (VPT) and Madurai Junction (MDU) are major hubs with better connectivity from all over India.",
+      stops: ["Srivilliputtur Station (11 km)", "Virudhunagar Junction (25 km)"]
+    },
+    {
+      icon: <Plane className="w-8 h-8 text-amber-400" />,
+      title: "By Flight",
+      desc: "The nearest airport is Madurai International Airport (IXM). You can hire a taxi or take a bus from Madurai to reach the campus (approx. 1.5 hours travel time).",
+      stops: ["Madurai Airport (60 km)", "Trivandrum Airport (130 km)"]
+    }
+  ];
+
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold font-['Cinzel'] text-white">How to Reach Us</h2>
-        <p className="text-white/70 max-w-2xl mx-auto mt-4">Travel options to ensure you arrive comfortably at SPARKZ 2026.</p>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="max-w-6xl mx-auto space-y-12"
+    >
+      {/* Introduction */}
+      <div className="text-center max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-white font-['Cinzel'] mb-4">Route Map</h2>
+        <p className="text-white/60">
+          Kalasalingam Academy of Research and Education is located in a scenic campus along the Western Ghats. Here is how you can reach us.
+        </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="space-y-6">
-          {travelOptions.map((option, index) => {
-            const Icon = option.icon;
-            return (
-              <div key={index} className={`bg-gradient-to-br ${option.color} to-transparent border border-white/10 rounded-xl p-6`}>
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-white/10 rounded-lg"><Icon className="text-white" size={24} /></div>
-                  <div>
-                    <h4 className="text-xl font-bold text-white mb-2">{option.type}</h4>
-                    <p className="text-white/70 mb-4">{option.details}</p>
-                    <div className="flex items-center gap-6 text-sm">
-                      <div className="flex items-center gap-2"><Clock size={16} className="text-white/60" /><span>{option.time}</span></div>
-                      <div className="flex items-center gap-2"><span className="text-white/60">Cost:</span><span className="text-amber-400 font-semibold">{option.cost}</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden h-96">
-            <iframe title="SPARKZ Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.507574416501!2d77.54784917504503!3d9.90398559016478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b070adc3b00c255%3A0xdff915a7154d5f1!2sKalasalingam%20Academy%20of%20Research%20and%20Education!5e0!3m2!1sen!2sin!4v1705921234567!5m2!1sen!2sin" width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+
+      {/* Map Section */}
+      <div className="relative group rounded-3xl overflow-hidden border border-amber-500/20 shadow-2xl bg-[#0a0a0a]">
+        
+        {/* Map Header Overlay */}
+        <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/90 to-transparent p-4 z-10 flex items-center justify-between pointer-events-none">
+          {/* Label */}
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-amber-500/20 backdrop-blur-md rounded-full text-amber-400">
+              <Navigation className="w-5 h-5" />
+            </div>
+            <span className="text-white/90 font-['Rajdhani'] font-bold tracking-wide text-sm hidden sm:inline">LIVE LOCATION</span>
           </div>
+
+          {/* Get Directions Button (Pointer events enabled for button) */}
+          <a 
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pointer-events-auto flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-red-600 text-white font-bold text-sm rounded-full shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+          >
+            <span>Get Directions</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+
+        {/* Google Map Iframe */}
+        <div className="w-full h-[400px] md:h-[500px] bg-gray-900">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7602.092654326299!2d77.6800524!3d9.5748596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b06dbc06968e9eb%3A0x6cfd8f94e42f98c4!2sKalasalingam%20Academy%20of%20Research%20and%20Education!5e1!3m2!1sen!2sin!4v1770888102825!5m2!1sen!2sin"
+            width="100%" 
+            height="100%" 
+            style={{ border: 0, filter: 'grayscale(0.2) contrast(1.1)' }} 
+            allowFullScreen="" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Kalasalingam Academy Location"
+            className="w-full h-full"
+          />
         </div>
       </div>
+
+      {/* Travel Modes Grid */}
+      <div className="grid md:grid-cols-3 gap-6">
+        {travelModes.map((mode, index) => (
+          <div 
+            key={index} 
+            className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 hover:border-amber-500/30 transition-all duration-300 group"
+          >
+            <div className="mb-4 p-3 bg-black/50 rounded-xl inline-block border border-white/10 group-hover:border-amber-500/50 group-hover:text-amber-400 transition-colors">
+              {mode.icon}
+            </div>
+            
+            <h3 className="text-xl font-bold text-white mb-3 font-['Rajdhani']">{mode.title}</h3>
+            <p className="text-white/60 text-sm leading-relaxed mb-6 h-auto min-h-[5rem]">
+              {mode.desc}
+            </p>
+            
+            <div className="space-y-2 pt-4 border-t border-white/5">
+              <div className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-2">Nearest Stops</div>
+              {mode.stops.map((stop, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                  <MapPin className="w-3 h-3 text-white/40" />
+                  <span>{stop}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
     </motion.div>
   );
 };
