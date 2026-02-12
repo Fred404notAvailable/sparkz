@@ -125,15 +125,6 @@ const EventGrid = ({
         </div>
       )}
 
-      {/* Load More Button (if pagination needed) */}
-      {filteredEvents.length > 0 && filteredEvents.length >= 6 && (
-        <div className="mt-12 text-center">
-          <button className="px-6 py-3 bg-white/10 backdrop-blur-xl text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20 hover:border-white/40">
-            Load More Events
-          </button>
-        </div>
-      )}
-
       {/* Footer Stats */}
       {filteredEvents.length > 0 && (
         <div className="mt-12 pt-8 border-t border-white/10">

@@ -325,19 +325,11 @@ const ProShowPage = () => {
               <h2 className="text-4xl md:text-6xl font-black text-white mb-4">SECURE YOUR SPOT</h2>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <TicketCard 
-                type="standard" 
-                price="300" 
-                features={['Access to all 3 Shows', 'General Standing Area', 'Food Court Access']} 
-                color="from-blue-600 to-cyan-600"
-                onClick={() => handleRegister('normal')}
-                loading={registering === 'normal'}
-              />
+            <div className="grid md:grid-cols-1 gap-2 lg:gap-1 items-center">
               <div className="relative transform md:scale-105 z-10">
                 <TicketCard 
                   type="vip" 
-                  price="500" 
+                  price="300" 
                   popular={true}
                   features={['Priority Front Row Access', 'Meet & Greet Chance', 'Exclusive Merch Kit', 'Fast Track Entry']} 
                   color="from-amber-600 to-red-600"
