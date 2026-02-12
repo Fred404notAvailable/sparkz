@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage'; // <-- NEW IMPORT
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 // Layout wrapper for AppLayout routes
 const AppLayoutWrapper = () => {
@@ -48,6 +49,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <Analytics />
+        <SpeedInsights />
       </Router>
     </CartProvider>
   </AuthProvider>
