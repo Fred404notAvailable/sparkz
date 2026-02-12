@@ -19,7 +19,6 @@ const AppLayoutWrapper = () => {
   return (
     <AppLayout>
       <Outlet />
-      <Analytics />
     </AppLayout>
   );
 };
@@ -28,6 +27,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <Analytics />
         <Router>
           <Routes>
           {/* Routes wrapped with AppLayout */}
