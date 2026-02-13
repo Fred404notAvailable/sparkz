@@ -74,8 +74,30 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('sparkz_user', JSON.stringify({ ...user, ...userData }));
     }
 
+    const googleLogin = async (email, name) => {
+        try {
+            console.log('Google Login attempt:', email, name);
+            const API_URL = import.meta.env.VITE_API_URL || 'https://sparkz-server.onrender.com';
+            // Using /user/kare endpoint as discussed in the plan
+            const response = await axios.post(`${API_URL}/user/kare`, { email, name });
+
+            const userData = response.data;
+            if (userData) {
+                setUser(userData);
+                localStorage.setItem('sparkz_user', JSON.stringify(userData));
+                return { success: true };
+            } else {
+                return { success: false, message: 'Login failed' };
+            }
+        } catch (error) {
+            console.error("Google Login error:", error);
+            const message = error.response?.data?.message || error.message || 'Login failed';
+            return { success: false, message };
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateUser, loading }}>
+        <AuthContext.Provider value={{ user, login, register, googleLogin, logout, updateUser, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

@@ -14,6 +14,7 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import ScannerPage from './pages/ScannerPage';
 
 // Layout wrapper for AppLayout routes
 const AppLayoutWrapper = () => {
@@ -30,29 +31,31 @@ function App() {
       <CartProvider>
         <Router>
           <Routes>
-          {/* Routes wrapped with AppLayout */}
-          <Route element={<AppLayoutWrapper />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/proshow" element={<ProShowPage />} />
-            <Route path="/sponsors" element={<SponsorsPage />} />
-            <Route path="/hospitality" element={<HospitalityPage />} />
-            <Route path="/teams" element={<TeamPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/profile" element={<ProfilePage />} /> {/* <-- NEW ROUTE */}
-          </Route>
-          
-          {/* Auth routes with their own layout */}
-          <Route path="/auth/*" element={<AuthPage />} />
-          
-          {/* 404 Page */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <Analytics />
-        <SpeedInsights />
-      </Router>
-    </CartProvider>
-  </AuthProvider>
+            {/* Routes wrapped with AppLayout */}
+            <Route element={<AppLayoutWrapper />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/proshow" element={<ProShowPage />} />
+              <Route path="/sponsors" element={<SponsorsPage />} />
+              <Route path="/hospitality" element={<HospitalityPage />} />
+              <Route path="/teams" element={<TeamPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/profile" element={<ProfilePage />} /> {/* <-- NEW ROUTE */}
+
+              <Route path="/scanner" element={<ScannerPage />} /> {/* <-- NEW ROUTE */}
+            </Route>
+
+            {/* Auth routes with their own layout */}
+            <Route path="/auth/*" element={<AuthPage />} />
+
+            {/* 404 Page */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <Analytics />
+          <SpeedInsights />
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 
